@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: gus
+      MYSQL_DATABASE: Entrega_2
+    ports:
+      - "3306:3306"
+
+  server:
+    build:
+      context: ./server
+    container_name: server
+    restart: always
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: gus
+      MYSQL_DATABASE: mails
+    ports:
+      - "12345:12345"
+    depends_on:
+      - mysql
+
+#  client:
+#    build:
+#      context: ./client
+#    container_name: client
+#    restart: always
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      - mysql 
